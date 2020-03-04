@@ -14,6 +14,9 @@ struct Coordinate {
 };
 Coordinate randPosition(void); 
 ostream& operator<< (ostream& lhs, Coordinate& rhs);
+Coordinate operator+ (const Coordinate& lhs, const Coordinate& rhs);
+Coordinate operator- (const Coordinate& lhs, const Coordinate& rhs);
+
 
 class GameWorld {
 private:
@@ -122,16 +125,84 @@ public:
 		} while (board[temp.x][temp.y] != def);
 		board[temp.x][temp.y] = piece;
 	}
-	char moveUp();
-	char moveDown();
-	char moveRight();
-	char moveLeft();
-	bool haveIWon(char destination);
-	bool amIAlive(char destination);
+	char moveUp()
+	{
+		char destination = '\0';
+		Coordinate upOne;
+		upOne.x = -1;
+		upOne.y = 0;
+		//Check in bounds
+		if (playerPosition.x == 0)
+			return '\0';
+		//Overwrite P on board
+		board[playerPosition.x][playerPosition.y] = ' ';
+		//Update player location
+		playerPosition = playerPosition + upOne;
+		//Get char from space
+		destination = board[playerPosition.x][playerPosition.y];
+		//Write player to space
+		board[playerPosition.x][playerPosition.y] = 'U';
+		//Return overwritten character
+		return destination;
+	}
+	char moveDown()
+	{
+		char destination = '\0';
+		Coordinate downOne;
+		downOne.x = 1;
+		downOne.y = 0;
+		if (playerPosition.x == 4)
+			return '\0';
+		board[playerPosition.x][playerPosition.y] = ' ';
+		playerPosition = playerPosition + downOne;
+		destination = board[playerPosition.x][playerPosition.y];
+		board[playerPosition.x][playerPosition.y] = 'U';
+		return destination;
+	}
+	char moveRight()
+	{
+		char destination = '\0';
+		Coordinate rightOne;
+		rightOne.x = 0;
+		rightOne.y = 1;
+		if (playerPosition.y == 4)
+			return '\0';
+		board[playerPosition.x][playerPosition.y] = ' ';
+		playerPosition = playerPosition + rightOne;
+		destination = board[playerPosition.x][playerPosition.y];
+		board[playerPosition.x][playerPosition.y] = 'U';
+		return destination;
+	}
+	char moveLeft()
+	{
+		char destination = '\0';
+		Coordinate leftOne;
+		leftOne.x = 0;
+		leftOne.y = -1;
+		if (playerPosition.y == 0)
+			return '\0';
+		board[playerPosition.x][playerPosition.y] = ' ';
+		playerPosition = playerPosition + leftOne;
+		destination = board[playerPosition.x][playerPosition.y];
+		board[playerPosition.x][playerPosition.y] = 'U';
+		return destination;
+	}
+	bool haveIWon(char destination)
+	{
+		if (destination == 'G')
+			return true;
+		else
+			return false;
+	}
+	bool amIAlive(char destination)
+	{
+		if (destination == 'W' || destination == 'P')
+			return false;
+		else
+			return true;
+	}
 };
 
-Coordinate operator+ (const Coordinate& lhs, const Coordinate& rhs);
-Coordinate operator- (const Coordinate& lhs, const Coordinate& rhs);
 void displayMenu();
 void displayControls();
 void playGame();
