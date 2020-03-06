@@ -28,6 +28,82 @@ ostream& operator<< (ostream& lhs, Coordinate& rhs)
 	lhs << "(" << rhs.x << "," << rhs.y << ")";
 	return lhs; 
 }
+char GameWorld::moveUp()
+{
+	char destination = '\0';
+	Coordinate upOne;
+	upOne.x = -1;
+	upOne.y = 0;
+	//Check in bounds
+	if (playerPosition.x == 0)
+		return '\0';
+	//Overwrite P on board
+	board[playerPosition.x][playerPosition.y] = ' ';
+	//Update player location
+	playerPosition = playerPosition + upOne;
+	//Get char from space
+	destination = board[playerPosition.x][playerPosition.y];
+	//Write player to space
+	board[playerPosition.x][playerPosition.y] = 'U';
+	//Return overwritten character
+	return destination;
+}
+char GameWorld::moveDown()
+{
+	char destination = '\0';
+	Coordinate downOne;
+	downOne.x = 1;
+	downOne.y = 0;
+	if (playerPosition.x == 4)
+		return '\0';
+	board[playerPosition.x][playerPosition.y] = ' ';
+	playerPosition = playerPosition + downOne;
+	destination = board[playerPosition.x][playerPosition.y];
+	board[playerPosition.x][playerPosition.y] = 'U';
+	return destination;
+}
+char GameWorld::moveRight()
+{
+	char destination = '\0';
+	Coordinate rightOne;
+	rightOne.x = 0;
+	rightOne.y = 1;
+	if (playerPosition.y == 4)
+		return '\0';
+	board[playerPosition.x][playerPosition.y] = ' ';
+	playerPosition = playerPosition + rightOne;
+	destination = board[playerPosition.x][playerPosition.y];
+	board[playerPosition.x][playerPosition.y] = 'U';
+	return destination;
+}
+char GameWorld::moveLeft()
+{
+	char destination = '\0';
+	Coordinate leftOne;
+	leftOne.x = 0;
+	leftOne.y = -1;
+	if (playerPosition.y == 0)
+		return '\0';
+	board[playerPosition.x][playerPosition.y] = ' ';
+	playerPosition = playerPosition + leftOne;
+	destination = board[playerPosition.x][playerPosition.y];
+	board[playerPosition.x][playerPosition.y] = 'U';
+	return destination;
+}
+bool GameWorld::haveIWon(char destination)
+{
+	if (destination == 'G')
+		return true;
+	else
+		return false;
+}
+bool GameWorld::amIAlive(char destination)
+{
+	if (destination == 'W' || destination == 'P')
+		return false;
+	else
+		return true;
+}
 void displayMenu()
 {
 	int option = 0;
