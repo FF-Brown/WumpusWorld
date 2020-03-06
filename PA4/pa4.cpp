@@ -56,7 +56,7 @@ void playGame()
 {
 	char input = '\0', move = '\0';
 	bool result = false;
-	GameWorld world(' ');
+	GameWorld world;
 
 	setName(world); //Set player name if necessary
 	world.displayVisibleWorld();
@@ -136,13 +136,13 @@ void resetGame(GameWorld& world)
 {
 	int score = world.getScore();
 	string name = world.getName();
-	world = GameWorld::GameWorld(' ');
+	world = GameWorld::GameWorld();
 	world.setScore(score);
 	world.setName(name);
 }
 void newGame(GameWorld& world)
 {
-	world = GameWorld::GameWorld(' ');
+	world = GameWorld::GameWorld();
 }
 void setName(GameWorld& world)
 {
